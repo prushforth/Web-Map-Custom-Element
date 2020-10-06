@@ -5,7 +5,7 @@ import './mapml.js';       // modified URI to make the function a property of wi
 
 export class MapLayer extends HTMLElement {
   static get observedAttributes() {
-    return ['src', 'label', 'checked', 'disabled', 'hidden'];
+    return ['src', 'label', 'checked', 'hidden'];
   }
   get src() {
     return this.hasAttribute('src')?this.getAttribute('src'):'';
@@ -46,6 +46,10 @@ export class MapLayer extends HTMLElement {
     } else {
       this.removeAttribute('checked');
     }
+  }
+  
+  get disabled() {
+    return this.disabled;
   }
   
   get hidden() {
@@ -110,6 +114,15 @@ export class MapLayer extends HTMLElement {
             this.dispatchEvent(new CustomEvent('labelchanged', {detail: 
               {target: this}}));
           }
+          break;
+      }
+      case 'checked': {
+          if (newValue !== null) {
+            console.log('toggle on');
+          } else {
+            console.log('toggle off');
+          }
+          break;
       }
     }
   }
