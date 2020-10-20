@@ -1,0 +1,17 @@
+<mapml>
+    <head>
+        <title>WORLD-ACT</title>
+        <meta charset="utf-8" />
+        <meta content="text/mapml;projection=WGS84" http-equiv="Content-Type" />
+    </head>
+    <body>
+      <extent units="WGS84">
+        <input name="z" type="zoom" min="0" max="21" />
+        <input name="txmin" type="location" rel="tile" position="top-left" axis="longitude" units="tilematrix" min="-180" max="180"/>
+        <input name="tymin" type="location" rel="tile" position="bottom-left" axis="latitude" units="tilematrix" min="-90" max="90"/>
+        <input name="txmax" type="location" rel="tile" position="top-right" axis="longitude" units="tilematrix" min="-180" max="180"/>
+        <input name="tymax" type="location" rel="tile" position="top-left" axis="latitude" units="tilematrix" min="-90" max="90"/>
+        <link tref="https://tb16.geo-solutions.it/geoserver/wms?service=WMS&amp;version=1.3.0&amp;request=GetMap&amp;layers=world%2Cact&amp;bbox={txmin},{tymin},{txmax},{tymax}&amp;width=256&amp;height=256&amp;crs=urn:ogc:def:crs:OGC:1.3:CRS84&amp;styles=&amp;format=image/png" rel="tile" />
+      </extent>
+    </body>
+</mapml>

@@ -1,0 +1,20 @@
+<mapml>
+    <head>
+        <title>H3-DGGS</title>
+        <meta charset="utf-8" />
+        <meta content="text/mapml;projection=WGS84" http-equiv="Content-Type" />
+    </head>
+    <body>
+        <extent units="WGS84">
+            <input name="z" type="zoom" min="0" max="21" />
+            <input name="txmin" type="location" rel="tile" position="top-left" axis="longitude" units="tilematrix" min="-180" max="180"/>
+            <input name="tymin" type="location" rel="tile" position="bottom-left" axis="latitude" units="tilematrix" min="-90" max="90"/>
+            <input name="txmax" type="location" rel="tile" position="top-right" axis="longitude" units="tilematrix" min="-180" max="180"/>
+            <input name="tymax" type="location" rel="tile" position="top-left" axis="latitude" units="tilematrix" min="-90" max="90"/>
+            <link tref="https://tb16.geo-solutions.it/geoserver/wms?service=WMS&amp;version=1.3.0&amp;request=GetMap&amp;layers=s2-h3%2Cworld%2Cact&amp;bbox={txmin},{tymin},{txmax},{tymax}&amp;width=256&amp;height=256&amp;crs=urn:ogc:def:crs:OGC:1.3:CRS84&amp;styles=ndvi,,&amp;format=image/png&amp;viewParams=resOffset:2" rel="tile" />
+            <input name="i" type="location" axis="i" units="tile" />
+            <input name="j" type="location" axis="j" units="tile" />
+            <link tref="https://tb16.geo-solutions.it/geoserver/wms?VIEWPARAMS=resOffset%3A2&amp;STYLES=ndvi%2C%2C&amp;LAYERS=s2-h3&amp;Exceptions=application%2Fvnd.ogc.se_inimage?version=1.3.0&amp;service=WMS&amp;request=GetFeatureInfo&amp;crs=urn:ogc:def:crs:OGC:1.3:CRS84&amp;layers=s2-h3&amp;query_layers=s2-h3&amp;styles=&amp;bbox={txmin},{tymin},{txmax},{tymax}&amp;width=256&amp;height=256&amp;info_format=text/html&amp;transparent=true&amp;x={i}&amp;y={j}" rel="query" />
+        </extent>
+    </body>
+</mapml>
