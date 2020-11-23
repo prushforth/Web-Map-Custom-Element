@@ -191,7 +191,7 @@ export var ContextMenu = L.Handler.extend({
         bR = layerElem.extent.bottomRight.pcrs;
 
     let data = `top-left-easting,${tL.horizontal}\ntop-left-northing,${tL.vertical}\n`;
-    data += `top-left-easting,${bR.horizontal}\ntop-left-northing,${bR.vertical}`;
+    data += `bottom-right-easting,${bR.horizontal}\nbottom-right-northing,${bR.vertical}`;
 
     context._copyData(data);
   },
@@ -251,7 +251,7 @@ export var ContextMenu = L.Handler.extend({
 
   _toggleControls: function(e){
     let mapEl = e instanceof KeyboardEvent?this._map.options.mapEl:this.options.mapEl;
-    mapEl._toggleControls(true);
+    mapEl._toggleControls();
   },
 
   _viewSource: function(e){
@@ -315,9 +315,7 @@ export var ContextMenu = L.Handler.extend({
     if(pointX < 0) pointX+= TILE_SIZE;
     if(pointY < 0) pointY+= TILE_SIZE;
 
-    this.contextMenu._copyData(`z:${mapEl.zoom}, 
-                                i:${Math.round(pointX)}, 
-                                j:${Math.round(pointY)}`);
+    this.contextMenu._copyData(`z:${mapEl.zoom}, i:${Math.round(pointX)}, j:${Math.round(pointY)}`);
   },
 
   _copyMap: function(e){
@@ -561,7 +559,7 @@ export var ContextMenu = L.Handler.extend({
     if(!this._mapMenuVisible) return;
     this._debounceKeyDown(function(){
       let key = e.keyCode;
-      if(key!== 9 && !(!this._layerClicked && key === 67))
+      if(key!== 9 && !(!this._layerClicked && key === 67) && e.path[0].innerText !== "Copy Coordinates (C) >")
         this._hide();
       switch(key){
         case 32:  //SPACE KEY
