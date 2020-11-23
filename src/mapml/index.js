@@ -208,6 +208,114 @@ window.M = M;
       }
     }
   });
+  
+M.ASDICANADA = new L.Proj.CRS('EPSG:3573',  '+proj=laea +lat_0=90 +lon_0=-100 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs', {
+    origin: [-4889334.802955, 4889334.802955],
+    bounds: L.bounds([[-4889334.802955, -4889334.802955],[4889334.802955, 4889334.802955]]),
+    resolutions: [
+      38197.92815,
+      19098.96407,
+      9549.482037,
+      4774.741019,
+      2387.370509,
+      1193.685255,
+      596.8426273,
+      298.4213137,
+      149.2106568,
+      74.60532841,
+      37.30266421
+    ],
+    crs: {
+      tcrs: {
+        horizontal: {
+          name: "x",
+          min: 0, 
+          max: zoom => (M.ASDICANADA.options.bounds.getSize().x / M.ASDICANADA.options.resolutions[zoom]).toFixed()
+        },
+        vertical: {
+          name: "y",
+          min:0, 
+          max: zoom => (M.ASDICANADA.options.bounds.getSize().y / M.ASDICANADA.options.resolutions[zoom]).toFixed()
+        },
+        bounds: zoom => L.bounds([M.ASDICANADA.options.crs.tcrs.horizontal.min,
+                          M.ASDICANADA.options.crs.tcrs.vertical.min],
+                         [M.ASDICANADA.options.crs.tcrs.horizontal.max(zoom),
+                          M.ASDICANADA.options.crs.tcrs.vertical.max(zoom)])
+      },
+      pcrs: {
+        horizontal: {
+          name: "easting",
+          get min() {return M.ASDICANADA.options.bounds.min.x;},
+          get max() {return M.ASDICANADA.options.bounds.max.x;}
+        }, 
+        vertical: {
+          name: "northing", 
+          get min() {return M.ASDICANADA.options.bounds.min.y;},
+          get max() {return M.ASDICANADA.options.bounds.max.y;}
+        },
+        get bounds() {return M.ASDICANADA.options.bounds;}
+      }, 
+      gcrs: {
+        horizontal: {
+          name: "longitude",
+          min: -180,
+          max: 180
+        }, 
+        vertical: {
+          name: "latitude",
+          min: 45,
+          max: 90
+        },
+        get bounds() {return L.latLngBounds(
+              [M.ASDICANADA.options.crs.gcrs.vertical.min,M.ASDICANADA.options.crs.gcrs.horizontal.min],
+              [M.ASDICANADA.options.crs.gcrs.vertical.max,M.ASDICANADA.options.crs.gcrs.horizontal.max]);}
+      },
+      map: {
+        horizontal: {
+          name: "i",
+          min: 0,
+          max: map => map.getSize().x
+        },
+        vertical: {
+          name: "j",
+          min: 0,
+          max: map => map.getSize().y
+        },
+        bounds: map => L.bounds(L.point([0,0]),map.getSize())
+      },
+      tile: {
+        horizontal: {
+          name: "i",
+          min: 0,
+          max: 256
+        },
+        vertical: {
+          name: "j",
+          min: 0,
+          max: 256
+        },
+        get bounds() {return L.bounds(
+                  [M.ASDICANADA.options.crs.tile.horizontal.min,M.ASDICANADA.options.crs.tile.vertical.min],
+                  [M.ASDICANADA.options.crs.tile.horizontal.max,M.ASDICANADA.options.crs.tile.vertical.max]);}
+      },
+      tilematrix: {
+        horizontal: {
+          name: "column",
+          min: 0,
+          max: zoom => (M.ASDICANADA.options.crs.tcrs.horizontal.max(zoom) / M.ASDICANADA.options.crs.tile.bounds.getSize().x).toFixed()
+        },
+        vertical: {
+          name: "row",
+          min: 0,
+          max: zoom => (M.ASDICANADA.options.crs.tcrs.vertical.max(zoom) / M.ASDICANADA.options.crs.tile.bounds.getSize().y).toFixed()
+        },
+        bounds: zoom => L.bounds([0,0],
+                 [M.ASDICANADA.options.crs.tilematrix.horizontal.max(zoom),
+                  M.ASDICANADA.options.crs.tilematrix.vertical.max(zoom)])
+      }
+    }
+  });
+  
   M.CBMTILE = new L.Proj.CRS('EPSG:3978',
   '+proj=lcc +lat_1=49 +lat_2=77 +lat_0=49 +lon_0=-95 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs', {
     origin: [-34655800, 39310000],
