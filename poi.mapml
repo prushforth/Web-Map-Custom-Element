@@ -1,0 +1,22 @@
+<mapml xmlns="http://www.w3.org/1999/xhtml/">
+    <head>
+        <title>poi</title>
+        <meta charset="utf-8" />
+        <meta content="text/mapml" http-equiv="Content-Type" />
+        <meta name="projection" content="CBMTILE" />
+        <meta name="cs" content="pcrs" />
+        <meta name="extent" content="top-left-easting=1811782.09,top-left-northing=-635525.85,bottom-right-easting=1813100.95,bottom-right-northing=-637168.09" />
+    </head>
+    <body>
+        <feature id="poi.1" class="poi">
+            <geometry>
+                <point>
+                    <coordinates>1812356.5122929534 -637124.5778866735</coordinates>
+                </point>
+            </geometry>
+            <properties>
+                <h3>Museum</h3>
+            </properties>
+        </feature>
+    </body>
+</mapml>
