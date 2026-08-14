@@ -18,6 +18,7 @@ import { scaleBar } from './mapml/control/ScaleBar.js';
 import { fullscreenButton } from './mapml/control/FullscreenButton.js';
 import { geolocationButton } from './mapml/control/GeolocationButton.js';
 import { searchButton } from './mapml/control/SearchButton.js';
+import { staticButton } from './mapml/control/StaticButton.js';
 import { debugOverlay } from './mapml/layers/DebugOverlay.js';
 import { crosshair } from './mapml/layers/Crosshair.js';
 import { featureIndexOverlay } from './mapml/layers/FeatureIndexOverlay.js';
@@ -186,7 +187,8 @@ export class HTMLWebMapElement extends HTMLMapElement {
             'nolayer',
             'noscale',
             'geolocation',
-            'search'
+            'search',
+            'static'
           ]
         );
 
@@ -562,6 +564,10 @@ export class HTMLWebMapElement extends HTMLMapElement {
     if (!this._geolocationButton) {
       this._geolocationButton = geolocationButton().addTo(this._map);
     }
+
+    if (!this._staticButton) {
+      this._staticButton = staticButton().addTo(this._map);
+    }
   }
 
   // Sets controls by hiding/unhiding them based on the map attribute
@@ -583,6 +589,7 @@ export class HTMLWebMapElement extends HTMLMapElement {
     this._setControlsVisibility('zoom', true);
     this._setControlsVisibility('geolocation', true);
     this._setControlsVisibility('scale', true);
+    this._setControlsVisibility('static', true);
   }
   _showControls() {
     this._setControlsVisibility('search', true);
@@ -592,6 +599,7 @@ export class HTMLWebMapElement extends HTMLMapElement {
     this._setControlsVisibility('zoom', false);
     this._setControlsVisibility('geolocation', true);
     this._setControlsVisibility('scale', false);
+    this._setControlsVisibility('static', true);
 
     // prune the controls shown if necessary
     // this logic could be embedded in _showControls
@@ -621,6 +629,9 @@ export class HTMLWebMapElement extends HTMLMapElement {
           case 'noscale':
             this._setControlsVisibility('scale', true);
             break;
+          case 'static':
+            this._setControlsVisibility('static', false);
+            break;
         }
       });
     }
@@ -638,6 +649,7 @@ export class HTMLWebMapElement extends HTMLMapElement {
     delete this._fullScreenControl;
     delete this._geolocationButton;
     delete this._scaleBar;
+    delete this._staticButton;
   }
   // Sets the control's visibility AND all its childrens visibility,
   // for the control element based on the Boolean hide parameter
@@ -677,6 +689,11 @@ export class HTMLWebMapElement extends HTMLMapElement {
       case 'scale':
         if (this._scaleBar) {
           container = this._scaleBar._container;
+        }
+        break;
+      case 'static':
+        if (this._staticButton) {
+          container = this._staticButton._container;
         }
         break;
     }

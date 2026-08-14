@@ -34,7 +34,7 @@ test.describe('map-link security: XSS via <map-link rel=license|legend>', () => 
     page =
       context.pages().find((p) => p.url() === 'about:blank') ||
       (await context.newPage());
-    await page.goto('map-link-security.html', { waitUntil: "networkidle" });
+    await page.goto('map-link-security.html', { waitUntil: 'networkidle' });
     // Give the viewer a beat to attach the malicious layers to the
     // attribution / layer control before we probe.
     await page.waitForSelector('mapml-viewer');
