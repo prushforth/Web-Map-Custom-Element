@@ -91,14 +91,11 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            src: ['dist/*'],
-            dest: '../experiments'
-          },
-          {
-            expand: true,
-            src: ['dist/images/*'],
-            dest: '../experiments'
-          }        ]
+            cwd: 'dist',
+            src: ['**'],
+            dest: '../experiments/dist/MapML.js/dist'
+          }
+        ]
       },
       extension: {
         files: [
@@ -144,7 +141,7 @@ module.exports = function(grunt) {
       tidyup: ['dist/mapmlviewer.js'],
       experiments: {
         options: {force: true},
-        src: ['../experiments/dist']
+        src: ['../experiments/dist/MapML.js/dist']
       },
       extension: {
         options: {force: true},
