@@ -50,7 +50,7 @@ jobs:
       with:
         source_folder: 'dist'
         destination_repo: 'Maps4HTML/experiments'
-        destination_folder: 'dist'
+        destination_folder: 'dist/MapML.js/dist'
         user_email: 'peter.rushforth@gmail.com'
         user_name: 'prushforth'
         commit_msg: '[AUTO] Sync MapML Build'

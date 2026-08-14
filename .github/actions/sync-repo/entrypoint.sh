@@ -26,6 +26,9 @@ git config --global user.name "$INPUT_USER_NAME"
 git clone --single-branch --branch $INPUT_DESTINATION_BRANCH "https://$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
 
 echo "Removing old destination files"
+# Ensure the (possibly nested) destination folder exists so a first-time
+# sync into a new subtree doesn't fail on the copy below.
+mkdir -p "$CLONE_DIR/$INPUT_DESTINATION_FOLDER"
 rm -rf $CLONE_DIR/$INPUT_DESTINATION_FOLDER/*
 
 echo "Copying contents to git repo"
