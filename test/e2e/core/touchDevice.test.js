@@ -67,4 +67,32 @@ test.describe('Playwright touch device tests', () => {
     ).jsonValue();
     expect(menuDisplay).toEqual('none');
   });
+
+  test('tap-expand does not ghost-click the settings button across cycles', async () => {
+    await page.goto('layerContextMenu.html', { waitUntil: 'networkidle' });
+
+    const layerControl = page.locator('.leaflet-control-layers');
+    const settingsBtn = page
+      .locator('fieldset.mapml-layer-item .mapml-layer-item-settings-control')
+      .first();
+    const settings = page
+      .locator('fieldset.mapml-layer-item > .mapml-layer-item-settings')
+      .first();
+    const viewer = page.locator('mapml-viewer');
+
+    // Three expand/collapse cycles: without the touchend fix the
+    // ghost click retargets to the settings gear, toggling
+    // aria-expanded on every cycle.
+    for (let i = 0; i < 3; i++) {
+      await layerControl.tap();
+      await expect(layerControl).toHaveClass(/leaflet-control-layers-expanded/);
+      await expect(settingsBtn).toHaveAttribute('aria-expanded', 'false');
+      await expect(settings).toHaveAttribute('hidden', '');
+
+      await viewer.tap({ position: { x: 150, y: 150 } });
+      await expect(layerControl).not.toHaveClass(
+        /leaflet-control-layers-expanded/
+      );
+    }
+  });
 });
