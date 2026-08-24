@@ -36,6 +36,27 @@ export var LayerControl = Control.Layers.extend({
       this._focusFirstLayer,
       this._container
     );
+    // Suppress synthetic mouse events on touch-expand so the browser
+    // can't retarget the ghost click to the settings gear button.
+    DomEvent.on(
+      this._container.getElementsByTagName('a')[0],
+      'touchend',
+      this._expandOnTouch,
+      this
+    );
+    // Collapse on any touch outside the control; movestart alone is
+    // unreliable because a plain tap doesn't pan the map.
+    this._outsideTouchHandler = (e) => {
+      if (!this._container.contains(e.target)) {
+        this._container._isExpanded = false;
+        this.collapse(e);
+      }
+    };
+    this._map
+      .getContainer()
+      .addEventListener('touchstart', this._outsideTouchHandler, {
+        passive: true
+      });
     DomEvent.on(
       this._container,
       'contextmenu',
@@ -57,6 +78,18 @@ export var LayerControl = Control.Layers.extend({
       this._focusFirstLayer,
       this._container
     );
+    DomEvent.off(
+      this._container.getElementsByTagName('a')[0],
+      'touchend',
+      this._expandOnTouch,
+      this
+    );
+    if (this._outsideTouchHandler) {
+      map
+        .getContainer()
+        .removeEventListener('touchstart', this._outsideTouchHandler);
+      this._outsideTouchHandler = null;
+    }
   },
   addOrUpdateOverlay: function (layer, name) {
     var alreadyThere = false;
@@ -189,6 +222,11 @@ export var LayerControl = Control.Layers.extend({
       this._container._isExpanded = false;
     }
     return this;
+  },
+  _expandOnTouch: function (e) {
+    DomEvent.preventDefault(e);
+    this._container._isExpanded = true;
+    this.expand();
   },
   _preventDefaultContextMenu: function (e) {
     let latlng = this._map.mouseEventToLatLng(e);
