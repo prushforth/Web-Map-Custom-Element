@@ -54,6 +54,17 @@ test.describe('Playwright mapml-viewer Element Tests', () => {
     expect(arialabel).toEqual('Map data attribution');
   });
 
+  test('Ensure attribution summary has a localized title tooltip', async () => {
+    let title = await page.evaluate(
+      `document.querySelector('mapml-viewer')._map.attributionControl._container.querySelector('summary').getAttribute('title')`
+    );
+    expect(title).toEqual('Map data attribution');
+    let arialabel = await page.evaluate(
+      `document.querySelector('mapml-viewer')._map.attributionControl._container.querySelector('summary').getAttribute('aria-label')`
+    );
+    expect(arialabel).toEqual('Map data attribution');
+  });
+
   test('Initial map element extent', async () => {
     await page.waitForTimeout(500);
     const extent = await page.$eval('body > mapml-viewer', (map) => map.extent);
